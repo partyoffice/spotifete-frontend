@@ -1,0 +1,16 @@
+.openapi-generator-ignore
+apis/AuthenticationApi.ts
+apis/ListeningSessionApi.ts
+apis/index.ts
+index.ts
+models/AuthenticatedRequest.ts
+models/ErrorResponse.ts
+models/FullListeningSession.ts
+models/IsSessionAuthenticatedResponse.ts
+models/NewAuthenticationSessionResponse.ts
+models/NewListeningSessionRequest.ts
+models/PlaylistMetadata.ts
+models/SimpleListeningSession.ts
+models/SimpleUser.ts
+models/index.ts
+runtime.ts
