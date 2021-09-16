@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Error404 from './views/Error404';
+import Home from './views/Home';
 
 const App: FC<any> = () => {
   return (
@@ -12,7 +13,7 @@ const App: FC<any> = () => {
           <Switch>
             <Route path="/sessions"></Route>
             <Route path="/account"></Route>
-            <Route exact path="/"></Route>
+            <Route exact path="/" component={Home}></Route>
             <Route component={Error404}></Route>
           </Switch>
         </div>
