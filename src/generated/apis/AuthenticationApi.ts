@@ -34,6 +34,10 @@ export interface IsSessionAuthenticatedRequest {
     sessionId: string;
 }
 
+export interface NewAuthenticationSessionRequest {
+    redirectTo?: string;
+}
+
 /**
  * 
  */
@@ -96,8 +100,12 @@ export class AuthenticationApi extends runtime.BaseAPI {
 
     /**
      */
-    async newAuthenticationSessionRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<NewAuthenticationSessionResponse>> {
+    async newAuthenticationSessionRaw(requestParameters: NewAuthenticationSessionRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<NewAuthenticationSessionResponse>> {
         const queryParameters: any = {};
+
+        if (requestParameters.redirectTo !== undefined) {
+            queryParameters['redirectTo'] = requestParameters.redirectTo;
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -113,8 +121,8 @@ export class AuthenticationApi extends runtime.BaseAPI {
 
     /**
      */
-    async newAuthenticationSession(initOverrides?: RequestInit): Promise<NewAuthenticationSessionResponse> {
-        const response = await this.newAuthenticationSessionRaw(initOverrides);
+    async newAuthenticationSession(requestParameters: NewAuthenticationSessionRequest, initOverrides?: RequestInit): Promise<NewAuthenticationSessionResponse> {
+        const response = await this.newAuthenticationSessionRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
