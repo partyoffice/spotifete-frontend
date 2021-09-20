@@ -39,21 +39,19 @@ const Navbar: FC<any> = (props) => {
         </div>
         <div>
           {userState.isAuthenticated ? (
-            <input
-              onClick={() => login()}
-              type="button"
-              className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-green-500 hover:bg-white mt-4 lg:mt-0"
-            >
-              Login
-            </input>
-          ) : (
-            <input
+            <a
               onClick={() => logout()}
-              type="button"
               className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-green-500 hover:bg-white mt-4 lg:mt-0"
             >
               Logout
-            </input>
+            </a>
+          ) : (
+            <a
+              onClick={() => login()}
+              className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-green-500 hover:bg-white mt-4 lg:mt-0"
+            >
+              Login
+            </a>
           )}
         </div>
       </div>
