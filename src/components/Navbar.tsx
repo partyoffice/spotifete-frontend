@@ -1,6 +1,11 @@
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
+import UserContext from '../context/UserContext';
+import useAuthentication from '../hooks/useAuthentication';
 
 const Navbar: FC<any> = (props) => {
+  const { userState } = useContext(UserContext);
+  const { login, logout } = useAuthentication();
+
   return (
     <nav className="flex items-center justify-between flex-wrap bg-gray-900 p-6">
       <div className="flex items-center flex-shrink-0 text-white mr-6">
@@ -33,12 +38,23 @@ const Navbar: FC<any> = (props) => {
           </a>
         </div>
         <div>
-          <a
-            href="#"
-            className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-green-500 hover:bg-white mt-4 lg:mt-0"
-          >
-            Download
-          </a>
+          {userState.isAuthenticated ? (
+            <input
+              onClick={() => login()}
+              type="button"
+              className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-green-500 hover:bg-white mt-4 lg:mt-0"
+            >
+              Login
+            </input>
+          ) : (
+            <input
+              onClick={() => logout()}
+              type="button"
+              className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-green-500 hover:bg-white mt-4 lg:mt-0"
+            >
+              Logout
+            </input>
+          )}
         </div>
       </div>
     </nav>
