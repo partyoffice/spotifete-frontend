@@ -1,11 +1,12 @@
 import React, { Dispatch } from 'react';
 import { UserState, UserAction } from '../reducer/UserReducer';
+
 export interface UserContextState {
-  state: UserState;
-  dispatch: Dispatch<UserAction>;
+  userState: UserState;
+  dispatchUserState: Dispatch<UserAction>;
 }
 const UserContext = React.createContext<UserContextState>({
-  state: { username: null },
-  dispatch: () => ({}),
+  userState: { userSession: null, isAuthenticated: false, user: null },
+  dispatchUserState: () => ({}),
 });
 export default UserContext;
