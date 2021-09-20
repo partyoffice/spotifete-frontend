@@ -10,7 +10,9 @@ const useAuthentication = () => {
 
   const login = useCallback(async () => {
     try {
-      const userSession = await authenticationApi.newAuthenticationSession({ redirectTo: '/auth' });
+      const userSession = await authenticationApi.newAuthenticationSession({
+        redirectTo: '/auth',
+      });
       dispatchUserState({ type: 'LOGIN_ACTION', payload: { userSession: userSession } });
       window.open(userSession.spotifyAuthenticationUrl);
     } catch (e) {
