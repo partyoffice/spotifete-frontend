@@ -1,6 +1,7 @@
 import React, { FC, useContext } from 'react';
 import UserContext from '../context/UserContext';
 import useAuthentication from '../hooks/useAuthentication';
+import Button from './Button';
 
 const Navbar: FC<any> = () => {
   const { userState } = useContext(UserContext);
@@ -39,19 +40,9 @@ const Navbar: FC<any> = () => {
         </div>
         <div>
           {userState.isAuthenticated ? (
-            <a
-              onClick={() => logout()}
-              className="cursor-pointer inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-green-500 hover:bg-white mt-4 lg:mt-0"
-            >
-              Logout
-            </a>
+            <Button value="Logout" onClick={logout} />
           ) : (
-            <a
-              onClick={() => login()}
-              className="cursor-pointer inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-green-500 hover:bg-white mt-4 lg:mt-0"
-            >
-              Login
-            </a>
+            <Button value="Login" onClick={login} />
           )}
         </div>
       </div>
