@@ -1,8 +1,8 @@
-import React, { FC, ReactElement } from 'react';
+import React, { FC, ReactNode } from 'react';
 
 export interface CardProps {
   title: string;
-  children: ReactElement;
+  children: ReactNode | ReactNode[];
 }
 
 const Card: FC<CardProps> = (props) => {
@@ -10,7 +10,7 @@ const Card: FC<CardProps> = (props) => {
     <div className="max-w-sm rounded bg-gray-900 overflow-hidden shadow-lg text-white">
       <div className="px-6 py-4">
         <div className="font-bold text-xl mb-2">{props.title}</div>
-        {props.children}
+        <div className="flex flex-col">{props.children}</div>
       </div>
     </div>
   );
