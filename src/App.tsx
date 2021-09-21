@@ -1,29 +1,45 @@
-import React, { FC } from 'react';
+import React, { FC, useCallback, useContext, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import { UserProvider } from './components/UserProvider';
-import Auth from './views/Auth';
+import UserContext from './context/UserContext';
+import { NewAuthenticationSessionResponse } from './generated';
+import useAuthentication from './hooks/useAuthentication';
+import useCookies from './hooks/useCookies';
 import Error404 from './views/Error404';
 import Home from './views/Home';
 
 const App: FC<any> = () => {
+  const { dispatchUserState } = useContext(UserContext);
+  const { authenticate } = useAuthentication();
+  const { getCookie } = useCookies();
+
+  const setUserSessionFromCookie = useCallback(() => {
+    const userSession = getCookie<NewAuthenticationSessionResponse>('spotifete-user-session');
+    dispatchUserState({ type: 'LOGIN_ACTION', payload: { userSession: userSession } });
+  }, [getCookie, dispatchUserState]);
+
+  useEffect(() => {
+    setUserSessionFromCookie();
+  }, [setUserSessionFromCookie]);
+
+  useEffect(() => {
+    authenticate();
+  }, [authenticate]);
+
   return (
-    <UserProvider>
-      <Router>
-        <div className="h-full w-full flex flex-col">
-          <Navbar></Navbar>
-          <div className="h-full w-full px-2 py-1 bg-gray-800">
-            <Switch>
-              <Route path="/sessions"></Route>
-              <Route path="/account"></Route>
-              <Route path="/auth" component={Auth}></Route>
-              <Route exact path="/" component={Home}></Route>
-              <Route component={Error404}></Route>
-            </Switch>
-          </div>
+    <Router>
+      <div className="h-full w-full flex flex-col">
+        <Navbar></Navbar>
+        <div className="h-full w-full px-2 py-1 bg-gray-800">
+          <Switch>
+            <Route path="/sessions"></Route>
+            <Route path="/account"></Route>
+            <Route exact path="/" component={Home}></Route>
+            <Route component={Error404}></Route>
+          </Switch>
         </div>
-      </Router>
-    </UserProvider>
+      </div>
+    </Router>
   );
 };
 

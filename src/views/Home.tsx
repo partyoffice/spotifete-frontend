@@ -3,7 +3,7 @@ import Card from '../components/Card';
 import Input from '../components/Input';
 import UserContext from '../context/UserContext';
 
-const Home: FC<any> = (props) => {
+const Home: FC<any> = () => {
   const { userState } = useContext(UserContext);
 
   return (
