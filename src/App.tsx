@@ -7,6 +7,7 @@ import useAuthentication from './hooks/useAuthentication';
 import useCookies from './hooks/useCookies';
 import Error404 from './views/Error404';
 import Home from './views/Home';
+import Session from './views/Session';
 
 const App: FC<any> = () => {
   const { dispatchUserState } = useContext(UserContext);
@@ -32,7 +33,7 @@ const App: FC<any> = () => {
         <Navbar></Navbar>
         <div className="h-full w-full px-2 py-1 bg-gray-800">
           <Switch>
-            <Route path="/sessions"></Route>
+            <Route path="/sessions/:sessionId" component={Session}></Route>
             <Route path="/account"></Route>
             <Route exact path="/" component={Home}></Route>
             <Route component={Error404}></Route>
