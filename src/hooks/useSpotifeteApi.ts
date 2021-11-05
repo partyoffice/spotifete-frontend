@@ -1,6 +1,6 @@
 import { useContext, useMemo } from 'react';
 import UserContext from '../context/UserContext';
-import { AuthenticationApi, Configuration } from '../generated';
+import { ListeningSessionApi, AuthenticationApi, Configuration } from '../generated';
 
 const useSpotifeteApi = () => {
   const { userState } = useContext(UserContext);
@@ -16,7 +16,11 @@ const useSpotifeteApi = () => {
     return new AuthenticationApi(apiConfig);
   }, [apiConfig]);
 
-  return { authenticationApi };
+  const sessionsApi = useMemo(() => {
+    return new ListeningSessionApi(apiConfig);
+  }, [apiConfig]);
+
+  return { authenticationApi, sessionsApi };
 };
 
 export default useSpotifeteApi;
