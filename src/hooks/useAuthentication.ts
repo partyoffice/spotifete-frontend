@@ -38,7 +38,7 @@ const useAuthentication = () => {
         dispatchUserState({ type: 'AUTH_ACTION' });
       }
     } catch (e) {
-      console.error(`error getting auth status: ${e}`);
+      console.error(`error getting auth status: `, e);
     }
   }, [authenticationApi, dispatchUserState, userState.userSession]);
 
