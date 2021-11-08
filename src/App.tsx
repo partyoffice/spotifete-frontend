@@ -29,9 +29,9 @@ const App: FC<any> = () => {
 
   return (
     <Router>
-      <div className="h-full w-full flex flex-col">
+      <div className="h-screen w-screen flex flex-col">
         <Navbar></Navbar>
-        <div className="h-full w-full px-2 py-1 bg-gray-800">
+        <div className="h-screen w-screen px-2 py-1 bg-gray-800">
           <Switch>
             <Route path="/sessions/:sessionId" component={Session}></Route>
             <Route path="/account"></Route>
