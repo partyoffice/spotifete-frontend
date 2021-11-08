@@ -3,51 +3,43 @@ import UserContext from '../context/UserContext';
 import useAuthentication from '../hooks/useAuthentication';
 import Button from './Button';
 
-const Navbar: FC<any> = () => {
+const Navbar2: FC<any> = () => {
   const { userState } = useContext(UserContext);
   const { login, logout } = useAuthentication();
 
   return (
-    <nav className="flex items-center justify-between flex-wrap bg-gray-900 p-6">
-      <div className="flex items-center flex-shrink-0 text-white mr-6">
-        <span className="font-semibold text-xl tracking-tight">Spotifete</span>
-      </div>
-      <div className="block lg:hidden">
-        <button className="flex items-center px-3 py-2 border rounded text-green-400 border-green-600 hover:text-white hover:border-white">
-          <svg className="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <title>Menu</title>
-            <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
-          </svg>
-        </button>
-      </div>
-      <div className="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
-        <div className="text-sm lg:flex-grow">
-          <a
-            href="#responsive-header"
-            className="block mt-4 lg:inline-block lg:mt-0 text-green-400 hover:text-white mr-4"
-          >
-            Docs
+    <div>
+      <nav className="bg-gray-900 h-14 py-3 px-2 flex tracking-tight">
+        <div className="my-auto">
+          <span className="text-white font-semibold text-xl tracking-tight">Spotifete</span>
+        </div>
+        <div className="hidden md:flex ml-6 my-auto">
+          <a href="#responsive-header" className="block text-white hover:text-green-500 mr-3">
+            Sessions
           </a>
-          <a
-            href="#responsive-header"
-            className="block mt-4 lg:inline-block lg:mt-0 text-green-400 hover:text-white mr-4"
-          >
-            Examples
+          <a href="#responsive-header" className="block text-white hover:text-green-500 mr-3">
+            Sessions2
           </a>
-          <a href="#responsive-header" className="block mt-4 lg:inline-block lg:mt-0 text-green-400 hover:text-white">
-            Blog
+          <a href="#responsive-header" className="block text-white hover:text-green-500 mr-3">
+            Sessions3
           </a>
         </div>
-        <div>
+        <div className="ml-auto my-auto">
           {userState.isAuthenticated ? (
             <Button value="Logout" onClick={logout} />
           ) : (
             <Button value="Login" onClick={login} />
           )}
         </div>
+      </nav>
+      {/* TODO: Bottom Cirle Menu für Mobile View */}
+      <div className="hidden absolute bottom-0 right-0 h-14 w-14 mb-3 mr-3 cursor-pointer rounded-full items-center justify-center bg-gray-900">
+        <div className="my-auto mx-auto h-full flex items-center justify-center">
+          <span className="text-white font-bold text-xl ">...</span>
+        </div>
       </div>
-    </nav>
+    </div>
   );
 };
 
-export default Navbar;
+export default Navbar2;
