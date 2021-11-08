@@ -14,10 +14,6 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    SongRequestStatus,
-    SongRequestStatusFromJSON,
-    SongRequestStatusFromJSONTyped,
-    SongRequestStatusToJSON,
     TrackMetaData,
     TrackMetaDataFromJSON,
     TrackMetaDataFromJSONTyped,
@@ -54,12 +50,6 @@ export interface SongRequest {
      * @memberof SongRequest
      */
     trackMetadata?: TrackMetaData;
-    /**
-     * 
-     * @type {SongRequestStatus}
-     * @memberof SongRequest
-     */
-    status?: SongRequestStatus;
 }
 
 export function SongRequestFromJSON(json: any): SongRequest {
@@ -76,7 +66,6 @@ export function SongRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean
         'userId': !exists(json, 'user_id') ? undefined : json['user_id'],
         'spotifyTrackId': !exists(json, 'spotify_track_id') ? undefined : json['spotify_track_id'],
         'trackMetadata': !exists(json, 'track_metadata') ? undefined : TrackMetaDataFromJSON(json['track_metadata']),
-        'status': !exists(json, 'status') ? undefined : SongRequestStatusFromJSON(json['status']),
     };
 }
 
@@ -93,7 +82,6 @@ export function SongRequestToJSON(value?: SongRequest | null): any {
         'user_id': value.userId,
         'spotify_track_id': value.spotifyTrackId,
         'track_metadata': TrackMetaDataToJSON(value.trackMetadata),
-        'status': SongRequestStatusToJSON(value.status),
     };
 }
 

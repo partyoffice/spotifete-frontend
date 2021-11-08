@@ -19,5 +19,4 @@ export * from './SetFallbackPlaylistShuffleRequest';
 export * from './SimpleListeningSession';
 export * from './SimpleUser';
 export * from './SongRequest';
-export * from './SongRequestStatus';
 export * from './TrackMetaData';

@@ -28,18 +28,6 @@ import {
 export interface GetSessionQueueResponse {
     /**
      * 
-     * @type {SongRequest}
-     * @memberof GetSessionQueueResponse
-     */
-    currentlyPlaying?: SongRequest;
-    /**
-     * 
-     * @type {SongRequest}
-     * @memberof GetSessionQueueResponse
-     */
-    upNext?: SongRequest;
-    /**
-     * 
      * @type {Array<SongRequest>}
      * @memberof GetSessionQueueResponse
      */
@@ -56,8 +44,6 @@ export function GetSessionQueueResponseFromJSONTyped(json: any, ignoreDiscrimina
     }
     return {
         
-        'currentlyPlaying': !exists(json, 'currently_playing') ? undefined : SongRequestFromJSON(json['currently_playing']),
-        'upNext': !exists(json, 'up_next') ? undefined : SongRequestFromJSON(json['up_next']),
         'queue': !exists(json, 'queue') ? undefined : ((json['queue'] as Array<any>).map(SongRequestFromJSON)),
     };
 }
@@ -71,8 +57,6 @@ export function GetSessionQueueResponseToJSON(value?: GetSessionQueueResponse | 
     }
     return {
         
-        'currently_playing': SongRequestToJSON(value.currentlyPlaying),
-        'up_next': SongRequestToJSON(value.upNext),
         'queue': value.queue === undefined ? undefined : ((value.queue as Array<any>).map(SongRequestToJSON)),
     };
 }

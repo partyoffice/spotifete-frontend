@@ -23,7 +23,6 @@ models/SetFallbackPlaylistShuffleRequest.ts
 models/SimpleListeningSession.ts
 models/SimpleUser.ts
 models/SongRequest.ts
-models/SongRequestStatus.ts
 models/TrackMetaData.ts
 models/index.ts
 runtime.ts

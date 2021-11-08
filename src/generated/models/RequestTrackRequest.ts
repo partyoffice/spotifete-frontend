@@ -24,6 +24,12 @@ export interface RequestTrackRequest {
      * @type {string}
      * @memberof RequestTrackRequest
      */
+    username?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RequestTrackRequest
+     */
     trackId?: string;
 }
 
@@ -37,6 +43,7 @@ export function RequestTrackRequestFromJSONTyped(json: any, ignoreDiscriminator:
     }
     return {
         
+        'username': !exists(json, 'username') ? undefined : json['username'],
         'trackId': !exists(json, 'track_id') ? undefined : json['track_id'],
     };
 }
@@ -50,6 +57,7 @@ export function RequestTrackRequestToJSON(value?: RequestTrackRequest | null): a
     }
     return {
         
+        'username': value.username,
         'track_id': value.trackId,
     };
 }
