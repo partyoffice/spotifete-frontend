@@ -4,7 +4,7 @@ import UserContext from '../context/UserContext';
 import useAuthentication from '../hooks/useAuthentication';
 import Button from './Button';
 
-const Navbar2: FC<any> = () => {
+const Navbar: FC<any> = () => {
   const { userState } = useContext(UserContext);
   const { login, logout } = useAuthentication();
   const history = useHistory();
@@ -45,4 +45,4 @@ const Navbar2: FC<any> = () => {
   );
 };
 
-export default Navbar2;
+export default Navbar;
