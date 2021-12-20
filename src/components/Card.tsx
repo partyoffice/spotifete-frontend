@@ -1,8 +1,7 @@
-import React, { FC, ReactNode } from 'react';
+import React, { FC } from 'react';
 
-export interface CardProps {
-  title: string | undefined;
-  children: ReactNode | ReactNode[];
+export interface CardProps extends React.HTMLProps<HTMLDivElement> {
+  title?: string;
 }
 
 const Card: FC<CardProps> = (props) => {
