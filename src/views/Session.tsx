@@ -3,6 +3,10 @@ import { useHistory, useParams } from 'react-router';
 import { FullListeningSession } from '../generated/models';
 import useSpotifeteApi from '../hooks/useSpotifeteApi';
 
+export interface SessionParams {
+  sessionId: string;
+}
+
 export interface SessionState {
   session?: FullListeningSession;
 }
@@ -11,7 +15,7 @@ const Session: FC<any> = () => {
   const [state, setState] = useState<SessionState>({ session: undefined });
   const { sessionsApi } = useSpotifeteApi();
   const history = useHistory();
-  const { sessionId } = useParams();
+  const { sessionId } = useParams<SessionParams>();
 
   const getListeningSession = useCallback(
     async (sessionId: string) => {
@@ -27,7 +31,7 @@ const Session: FC<any> = () => {
         //TODO: handle error
       }
     },
-    [setState]
+    [history, sessionsApi]
   );
 
   useEffect(() => {
