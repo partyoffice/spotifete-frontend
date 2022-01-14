@@ -2,7 +2,7 @@
   "name": "spotifete-frontend",
   "version": "0.0.0",
   "scripts": {
-    "build": "tsc && parcel build",
+    "build": "tsc && parcel build index.html",
     "start": "parcel index.html",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
