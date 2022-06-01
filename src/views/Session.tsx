@@ -1,14 +1,10 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
-import { useHistory, useParams } from 'react-router';
-import Button from '../components/Button';
+import { useHistory, useParams } from 'react-router-dom';
+import { Button } from '../components/Button';
 import Card from '../components/Card';
 import Input from '../components/Input';
 import { FullListeningSession, SongRequest } from '../generated/models';
 import useSpotifeteApi from '../hooks/useSpotifeteApi';
-
-export interface SessionParams {
-  sessionId?: string;
-}
 
 export interface SessionState {
   session?: FullListeningSession;
@@ -19,7 +15,7 @@ const Session: FC<any> = () => {
   const [state, setState] = useState<SessionState>({ session: undefined, queue: [] });
   const { sessionsApi } = useSpotifeteApi();
   const history = useHistory();
-  const { sessionId } = useParams<SessionParams>();
+  const { sessionId } = useParams();
 
   const getListeningSession = useCallback(
     async (sessionId: string) => {
@@ -86,7 +82,7 @@ const Session: FC<any> = () => {
         <Card className="flex flex-row w-full">
           <div className="flex flex-row w-full">
             <Input></Input>
-            <Button value="Suche" onClick={() => console.log('yeah gesucht')}></Button>
+            <Button label="Suche" onClick={() => console.log('yeah gesucht')}></Button>
           </div>
         </Card>
       </div>
