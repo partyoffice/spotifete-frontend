@@ -1,5 +1,5 @@
 import React, { FC, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import UserContext from '../context/UserContext';
 import useAuthentication from '../hooks/useAuthentication';
 import { Button } from './Button';
@@ -7,13 +7,13 @@ import { Button } from './Button';
 const Navbar: FC<any> = () => {
   const { userState } = useContext(UserContext);
   const { login, logout } = useAuthentication();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   return (
     <div>
       <nav className="bg-gray-900 h-14 py-3 px-2 flex tracking-tight">
         {/*TODO: add shadow on hover*/}
-        <div className="my-auto cursor-pointer" onClick={() => history.push('')}>
+        <div className="my-auto cursor-pointer" onClick={() => navigate('')}>
           <span className="text-white font-semibold text-xl tracking-tight text-green-500 ">Spotifete</span>
         </div>
         <div className="hidden md:flex ml-6 my-auto">

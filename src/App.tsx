@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useContext, useEffect } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import UserContext from './context/UserContext';
 import { NewAuthenticationSessionResponse } from './generated';
@@ -32,18 +32,12 @@ const App: FC<any> = () => {
       <div className="h-screen w-screen flex flex-col">
         <Navbar></Navbar>
         <div className="h-screen w-screen px-2 py-1 bg-gray-800">
-          <Switch>
-            <Route path="/sessions/:sessionId">
-              <Session />
-            </Route>
+          <Routes>
+            <Route path="/" element={<Home />}></Route>
+            <Route path="/sessions/:sessionId" element={<Session />}></Route>
             <Route path="/account"></Route>
-            <Route path="/">
-              <Home />
-            </Route>
-            <Route>
-              <Error404 />
-            </Route>
-          </Switch>
+            <Route path="*" element={<Error404 />}></Route>
+          </Routes>
         </div>
       </div>
     </Router>

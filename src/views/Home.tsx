@@ -2,17 +2,17 @@ import React, { FC, useCallback, useContext } from 'react';
 import Card from '../components/Card';
 import Input from '../components/Input';
 import UserContext from '../context/UserContext';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Home: FC<any> = () => {
   const { userState } = useContext(UserContext);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const joinSession = useCallback(
     (sessionId: string) => {
-      history.push(`/sessions/${sessionId}`);
+      navigate(`/sessions/${sessionId}`);
     },
-    [history]
+    [navigate]
   );
 
   const handleJoinSessionInputKeyPress = useCallback(
