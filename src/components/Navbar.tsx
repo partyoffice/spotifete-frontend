@@ -1,8 +1,8 @@
 import React, { FC, useContext } from 'react';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import UserContext from '../context/UserContext';
 import useAuthentication from '../hooks/useAuthentication';
-import Button from './Button';
+import { Button } from './Button';
 
 const Navbar: FC<any> = () => {
   const { userState } = useContext(UserContext);
@@ -29,9 +29,9 @@ const Navbar: FC<any> = () => {
         </div>
         <div className="ml-auto my-auto">
           {userState.isAuthenticated ? (
-            <Button value="Logout" onClick={logout} />
+            <Button label="Logout" onClick={logout} />
           ) : (
-            <Button value="Login" onClick={login} />
+            <Button label="Login" onClick={login} />
           )}
         </div>
       </nav>

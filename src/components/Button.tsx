@@ -26,7 +26,12 @@ interface ButtonProps {
  */
 export const Button = ({ primary = false, size = 'medium', backgroundColor, label, ...props }: ButtonProps) => {
   return (
-    <button type="button" className="hover:bg-transparent" style={{ backgroundColor }} {...props}>
+    <button
+      type="button"
+      className="cursor-pointer text-sm px-4 py-1 leading-none border rounded text-white border-gray-600 hover:border-transparent hover:text-green-500 hover:bg-gray-700"
+      style={{ backgroundColor }}
+      {...props}
+    >
       {label}
     </button>
   );

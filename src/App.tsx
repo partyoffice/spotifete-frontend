@@ -33,10 +33,16 @@ const App: FC<any> = () => {
         <Navbar></Navbar>
         <div className="h-screen w-screen px-2 py-1 bg-gray-800">
           <Switch>
-            <Route path="/sessions/:sessionId" component={Session}></Route>
+            <Route path="/sessions/:sessionId">
+              <Session />
+            </Route>
             <Route path="/account"></Route>
-            <Route exact path="/" component={Home}></Route>
-            <Route component={Error404}></Route>
+            <Route path="/">
+              <Home />
+            </Route>
+            <Route>
+              <Error404 />
+            </Route>
           </Switch>
         </div>
       </div>

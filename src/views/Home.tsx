@@ -2,7 +2,7 @@ import React, { FC, useCallback, useContext } from 'react';
 import Card from '../components/Card';
 import Input from '../components/Input';
 import UserContext from '../context/UserContext';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 
 const Home: FC<any> = () => {
   const { userState } = useContext(UserContext);
