@@ -17,6 +17,7 @@ const Session: FC<any> = () => {
   const { sessionsApi } = useSpotifeteApi();
   const navigate = useNavigate();
   const { sessionId } = useParams();
+  const username = Date.now().toString(36) + Math.random().toString(36);
 
   const getListeningSession = useCallback(
     async (sessionId: string) => {
@@ -107,6 +108,26 @@ const Session: FC<any> = () => {
     setSearchTerm(event.target.value);
   }, []);
 
+  const handleSearchedTrackClick = useCallback(
+    async (track: TrackMetaData) => {
+      if (!sessionId || !track.spotifyTrackId) {
+        return;
+      }
+
+      try {
+        await sessionsApi.requestTrack({
+          joinId: sessionId,
+          requestTrackRequest: { username: username, trackId: track.spotifyTrackId },
+        });
+        getQueue(sessionId);
+      } catch (e) {
+        console.log(e);
+      }
+      setSearchResult([]);
+    },
+    [sessionsApi, sessionId, username, getQueue]
+  );
+
   const { queue } = state;
   const currentTrack = queue[0];
   const upcomingTrack = queue[1];
@@ -125,6 +146,7 @@ const Session: FC<any> = () => {
             <div
               className="flex flex-row items-start mb-1 px-2 cursor-pointer hover:text-green-500"
               key={`search_result_${track.spotifyTrackId}`}
+              onClick={() => handleSearchedTrackClick(track)}
             >
               <img className="md:w-14 mt-1 mr-1" src={track.albumImageThumbnailUrl} alt="" />
               <div className="flex flex-col pl-2 grow-0 mt-auto">
