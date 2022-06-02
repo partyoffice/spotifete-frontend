@@ -55,6 +55,7 @@ const Session: FC<any> = () => {
     }
 
     getListeningSession(sessionId);
+    getQueue(sessionId);
     const intervallId = setInterval(() => getQueue(sessionId), 5000);
     return () => clearInterval(intervallId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
