@@ -50,7 +50,7 @@ const Session: FC<any> = () => {
 
   useEffect(() => {
     if (!sessionId) {
-      navigate.push('/404');
+      navigate('/404');
       return;
     }
 
