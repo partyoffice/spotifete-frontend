@@ -1,9 +1,8 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Button } from '../components/Button';
 import Card from '../components/Card';
 import Input from '../components/Input';
-import { FullListeningSession, SongRequest } from '../generated/models';
+import { FullListeningSession, SongRequest, TrackMetaData } from '../generated/models';
 import useSpotifeteApi from '../hooks/useSpotifeteApi';
 
 export interface SessionState {
@@ -13,6 +12,8 @@ export interface SessionState {
 
 const Session: FC<any> = () => {
   const [state, setState] = useState<SessionState>({ session: undefined, queue: [] });
+  const [searchTerm, setSearchTerm] = useState<string | undefined>();
+  const [searchResult, setSearchResult] = useState<TrackMetaData[]>([]);
   const { sessionsApi } = useSpotifeteApi();
   const navigate = useNavigate();
   const { sessionId } = useParams();
@@ -68,6 +69,44 @@ const Session: FC<any> = () => {
     }
   }, [state.session]);
 
+  const searchTrack = useCallback(
+    async (searchTerm: string) => {
+      if (!sessionId) {
+        return;
+      }
+
+      try {
+        const searchResponse = await sessionsApi.searchTrack({ joinId: sessionId, query: searchTerm });
+        if (searchResponse?.tracks) {
+          setSearchResult(searchResponse.tracks);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    [sessionsApi, sessionId]
+  );
+
+  useEffect(() => {
+    if (!searchTerm) {
+      setSearchResult([]);
+      return;
+    }
+
+    const timeoutId = setTimeout(() => {
+      searchTrack(searchTerm);
+      // make a request after 1 second since there's no typing
+    }, 1000);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [searchTrack, searchTerm]);
+
+  const handleSearchInput = useCallback((event) => {
+    setSearchTerm(event.target.value);
+  }, []);
+
   const { queue } = state;
   const currentTrack = queue[0];
   const upcomingTrack = queue[1];
@@ -75,16 +114,27 @@ const Session: FC<any> = () => {
     (track) =>
       track.spotifyTrackId !== currentTrack.spotifyTrackId && track.spotifyTrackId !== upcomingTrack.spotifyTrackId
   );
-  console.log(queuedTracks);
 
   return (
     <div className="flex pt-2 pl-2 w-auto flex-row items-start">
       <div className="flex pt-2 pl-2 flex-1 row items-start">
-        <Card className="flex flex-row w-full">
-          <div className="flex flex-row w-full">
-            <Input></Input>
-            <Button label="Suche" onClick={() => console.log('yeah gesucht')}></Button>
-          </div>
+        <Card className="flex flex-col w-full">
+          <div className="font-bold text-l text-green-500 pb-2">Search</div>
+          <Input onChange={handleSearchInput} />
+          {searchResult.map((track) => (
+            <div
+              className="flex flex-row items-start mb-1 px-2 cursor-pointer hover:text-green-500"
+              key={`search_result_${track.spotifyTrackId}`}
+            >
+              <img className="md:w-14 mt-1 mr-1" src={track.albumImageThumbnailUrl} alt="" />
+              <div className="flex flex-col pl-2 grow-0 mt-auto">
+                <div className="flex flex-row ">
+                  <div className="font-bold">{`${track.artistName} - ${track.trackName}`}</div>
+                </div>
+                <div>{track.albumName}</div>
+              </div>
+            </div>
+          ))}
         </Card>
       </div>
       <div className="flex pt-2 pl-2 flex-1 flex-row items-start overflow-hidden">
