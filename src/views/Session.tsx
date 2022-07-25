@@ -161,13 +161,13 @@ const Session: FC<any> = () => {
           </div>
         </Card>
       </div>
-      <div className="flex pt-2 pl-2 flex-1 flex-row items-start overflow-hidden">
+      <div className="flex overflow-hidden flex-row flex-1 items-start pt-2 pl-2">
         <Card className="flex flex-col">
-          <div className="font-bold text-l text-green-500 pb-2">Current Title</div>
+          <div className="pb-2 font-bold text-green-500 text-l">Current Title</div>
           {currentTrack?.trackMetadata ? (
             <>
               <img
-                className="md:w-32 mb-auto"
+                className="mb-auto md:w-32"
                 src={currentTrack.trackMetadata.albumImageThumbnailUrl}
                 alt=""
                 width="384"
@@ -201,13 +201,13 @@ const Session: FC<any> = () => {
               <></>
             )}
           </Card>
-          <Card className="flex flex-col ml-3 grow-0 w-full pb-1 mt-1">
-            <div className="font-bold text-l text-green-500 pb-2">Queue</div>
+          <Card className="flex flex-col pb-1 mt-1 ml-3 w-full grow-0">
+            <div className="pb-2 font-bold text-green-500 text-l">Queue</div>
             {queuedTracks.map((track) => (
               <div className="flex flex-row items-start mb-1" key={`track_details_${track.spotifyTrackId}`}>
-                <img className="md:w-14 mt-1 mr-1" src={track.trackMetadata?.albumImageThumbnailUrl} alt="" />
-                <div className="flex flex-col pl-2 grow-0 mt-auto">
-                  <div className="flex flex-row ">
+                <img className="mt-1 mr-1 md:w-14" src={track.trackMetadata?.albumImageThumbnailUrl} alt="" />
+                <div className="flex flex-col pl-2 mt-auto grow-0">
+                  <div className="flex flex-row">
                     <div className="font-bold">{`${track.trackMetadata?.artistName} - ${track.trackMetadata?.trackName}`}</div>
                   </div>
                   <div>{track.trackMetadata?.albumName}</div>

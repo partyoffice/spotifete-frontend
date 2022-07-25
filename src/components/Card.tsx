@@ -9,8 +9,8 @@ const Card: FC<CardProps> = (props) => {
 
   return (
     <div className={`rounded bg-gray-900 overflow-hidden shadow-lg text-white ${props.className}`}>
-        {title ? <div className="font-bold text-xl mb-2">{title}</div> : <></>}
       <div className="py-4 px-6 h-full">
+        {title ? <div className="mb-2 text-xl font-bold">{title}</div> : <></>}
         <div className="flex flex-col h-full">{children}</div>
       </div>
     </div>
