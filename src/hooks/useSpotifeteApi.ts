@@ -2,7 +2,7 @@ import { useContext, useMemo } from 'react';
 import { AuthenticationApi, Configuration, ListeningSessionApi } from 'spotifete-client-sdk';
 import UserContext from '../context/UserContext';
 
-const useSpotifeteApi = () => {
+const useSpotifeteApi: () => { authenticationApi: AuthenticationApi; sessionsApi: ListeningSessionApi } = () => {
   const { userState } = useContext(UserContext);
 
   const apiConfig = useMemo(() => {
