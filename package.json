@@ -11,6 +11,7 @@
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "react-router-dom": "^6.3.0",
+    "spotifete-client-sdk": "^0.0.3",
     "universal-cookie": "^4.0.4"
   },
   "devDependencies": {
