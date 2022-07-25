@@ -39,7 +39,7 @@ const Session: FC<any> = () => {
   const getQueue = useCallback(
     async (sessionId: string) => {
       try {
-        const queue = await (await sessionsApi.getSessionQueue({ joinId: sessionId })).queue;
+        const queue = (await sessionsApi.getSessionQueue({ joinId: sessionId })).queue;
         if (queue) {
           setState((prevState) => ({ ...prevState, queue: queue }));
         }
