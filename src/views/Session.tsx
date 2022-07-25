@@ -9,7 +9,9 @@ export interface SessionState {
   session?: FullListeningSession;
   queue: Array<SongRequest>;
 }
-
+function isResponse(response: any): response is Response {
+  return response.status !== undefined && response.body !== undefined;
+}
 const Session: FC<any> = () => {
   const [state, setState] = useState<SessionState>({ session: undefined, queue: [] });
   const [searchTerm, setSearchTerm] = useState<string | undefined>();
@@ -25,8 +27,7 @@ const Session: FC<any> = () => {
         const session = await sessionsApi.getListeningSession({ joinId: sessionId });
         setState((prevState) => ({ ...prevState, session: session }));
       } catch (e) {
-        //TODO: typing for error
-        if (e.status === 404) {
+        if (isResponse(e) && e.status === 404) {
           navigate('/404');
         }
 
