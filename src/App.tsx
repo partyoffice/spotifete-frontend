@@ -2,7 +2,7 @@ import React, { FC, useCallback, useContext, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import UserContext from './context/UserContext';
-import { NewAuthenticationSessionResponse } from './generated';
+import { NewAuthenticationSessionResponse } from 'spotifete-client-sdk';
 import useAuthentication from './hooks/useAuthentication';
 import useCookies from './hooks/useCookies';
 import Error404 from './views/Error404';
