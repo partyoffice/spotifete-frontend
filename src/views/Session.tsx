@@ -2,7 +2,7 @@ import React, { FC, useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Card from '../components/Card';
 import Input from '../components/Input';
-import { FullListeningSession, SongRequest, TrackMetaData } from '../generated/models';
+import { FullListeningSession, SongRequest, TrackMetaData } from 'spotifete-client-sdk';
 import useSpotifeteApi from '../hooks/useSpotifeteApi';
 
 export interface SessionState {
