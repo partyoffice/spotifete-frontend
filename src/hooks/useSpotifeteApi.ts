@@ -7,7 +7,7 @@ const useSpotifeteApi = () => {
 
   const apiConfig = useMemo(() => {
     return new Configuration({
-      basePath: 'https://spotifete.nikos410.de',
+      basePath: process.env.API_URL,
       accessToken: userState.userSession?.spotifeteSessionId,
     });
   }, [userState.userSession]);
