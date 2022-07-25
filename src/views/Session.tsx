@@ -1,19 +1,18 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect, useReducer, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Card from '../components/Card';
 import Input from '../components/Input';
-import { FullListeningSession, SongRequest, TrackMetaData } from 'spotifete-client-sdk';
+import { TrackMetaData } from 'spotifete-client-sdk';
 import useSpotifeteApi from '../hooks/useSpotifeteApi';
+import { sessionReducer } from '../reducer/SessionReducer';
 
-export interface SessionState {
-  session?: FullListeningSession;
-  queue: Array<SongRequest>;
-}
 function isResponse(response: any): response is Response {
   return response.status !== undefined && response.body !== undefined;
 }
 const Session: FC<any> = () => {
-  const [state, setState] = useState<SessionState>({ session: undefined, queue: [] });
+  const [{ session, queuedTracks, upcomingTrack, currentTrack }, dispatch] = useReducer(sessionReducer, {
+    queuedTracks: [],
+  });
   const [searchTerm, setSearchTerm] = useState<string | undefined>();
   const [searchResult, setSearchResult] = useState<TrackMetaData[]>([]);
   const { sessionsApi } = useSpotifeteApi();
@@ -25,7 +24,7 @@ const Session: FC<any> = () => {
     async (sessionId: string) => {
       try {
         const session = await sessionsApi.getListeningSession({ joinId: sessionId });
-        setState((prevState) => ({ ...prevState, session: session }));
+        dispatch({ type: 'LOAD_SESSION_ACTION', payload: { session } });
       } catch (e) {
         if (isResponse(e) && e.status === 404) {
           navigate('/404');
@@ -41,7 +40,7 @@ const Session: FC<any> = () => {
     async (sessionId: string) => {
       try {
         const { queue = [] } = await sessionsApi.getSessionQueue({ joinId: sessionId });
-        setState((prevState) => ({ ...prevState, queue: queue }));
+        dispatch({ type: 'LOAD_QUEUE_ACTION', payload: { queue } });
       } catch (e) {
         console.log(e);
       }
@@ -63,11 +62,11 @@ const Session: FC<any> = () => {
   }, []);
 
   useEffect(() => {
-    const sessionName = state.session?.title;
+    const sessionName = session?.title;
     if (sessionName) {
       document.title = `Spotifete - ${sessionName}`;
     }
-  }, [state.session]);
+  }, [session]);
 
   const searchTrack = useCallback(
     async (searchTerm: string) => {
@@ -123,14 +122,6 @@ const Session: FC<any> = () => {
       setSearchResult([]);
     },
     [sessionsApi, sessionId, username, getQueue]
-  );
-
-  const { queue } = state;
-  const currentTrack = queue[0];
-  const upcomingTrack = queue[1];
-  const queuedTracks = queue.filter(
-    (track) =>
-      track.spotifyTrackId !== currentTrack.spotifyTrackId && track.spotifyTrackId !== upcomingTrack.spotifyTrackId
   );
 
   return (
