@@ -137,26 +137,28 @@ const Session: FC<any> = () => {
   );
 
   return (
-    <div className="flex pt-2 pl-2 w-auto flex-row items-start">
-      <div className="flex pt-2 pl-2 flex-1 row items-start">
-        <Card className="flex flex-col w-full">
-          <div className="font-bold text-l text-green-500 pb-2">Search</div>
+    <div className="flex flex-row items-start pt-2 pl-2 w-auto h-full">
+      <div className="flex flex-1 items-start pt-2 pl-2 h-full row">
+        <Card className="flex flex-col w-full h-full">
+          <div className="pb-2 font-bold text-green-500 text-l">Search</div>
           <Input onChange={handleSearchInput} />
-          {searchResult.map((track) => (
-            <div
-              className="flex flex-row items-start mb-1 px-2 cursor-pointer hover:text-green-500"
-              key={`search_result_${track.spotifyTrackId}`}
-              onClick={() => handleSearchedTrackClick(track)}
-            >
-              <img className="md:w-14 mt-1 mr-1" src={track.albumImageThumbnailUrl} alt="" />
-              <div className="flex flex-col pl-2 grow-0 mt-auto">
-                <div className="flex flex-row ">
-                  <div className="font-bold">{`${track.artistName} - ${track.trackName}`}</div>
+          <div className="overflow-scroll h-full">
+            {searchResult.map((track) => (
+              <div
+                className="flex flex-row items-start px-2 mb-1 cursor-pointer hover:text-green-500"
+                key={`search_result_${track.spotifyTrackId}`}
+                onClick={() => handleSearchedTrackClick(track)}
+              >
+                <img className="mt-1 mr-1 md:w-14" src={track.albumImageThumbnailUrl} alt="" />
+                <div className="flex flex-col pl-2 mt-auto grow-0">
+                  <div className="flex flex-row">
+                    <div className="font-bold">{`${track.artistName} - ${track.trackName}`}</div>
+                  </div>
+                  <div>{track.albumName}</div>
                 </div>
-                <div>{track.albumName}</div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </Card>
       </div>
       <div className="flex pt-2 pl-2 flex-1 flex-row items-start overflow-hidden">
@@ -182,14 +184,14 @@ const Session: FC<any> = () => {
             <></>
           )}
         </Card>
-        <div className="flex flex-col w-full items-start">
-          <Card className="flex flex-col ml-3 grow-0 w-full pb-1">
-            <div className="font-bold text-l text-green-500 pb-2">Coming up</div>
+        <div className="flex flex-col items-start w-full">
+          <Card className="flex flex-col pb-1 ml-3 w-full grow-0">
+            <div className="pb-2 font-bold text-green-500 text-l">Coming up</div>
             {upcomingTrack?.trackMetadata ? (
               <div className="flex flex-row items-start">
-                <img className="md:w-14 mt-1 mr-1" src={upcomingTrack.trackMetadata.albumImageThumbnailUrl} alt="" />
-                <div className="flex flex-col pl-2 grow-0 mt-auto">
-                  <div className="flex flex-row ">
+                <img className="mt-1 mr-1 md:w-14" src={upcomingTrack.trackMetadata.albumImageThumbnailUrl} alt="" />
+                <div className="flex flex-col pl-2 mt-auto grow-0">
+                  <div className="flex flex-row">
                     <div className="font-bold">{`${upcomingTrack.trackMetadata.artistName} - ${upcomingTrack.trackMetadata.trackName}`}</div>
                   </div>
                   <div>{upcomingTrack.trackMetadata?.albumName}</div>
