@@ -40,10 +40,8 @@ const Session: FC<any> = () => {
   const getQueue = useCallback(
     async (sessionId: string) => {
       try {
-        const queue = (await sessionsApi.getSessionQueue({ joinId: sessionId })).queue;
-        if (queue) {
-          setState((prevState) => ({ ...prevState, queue: queue }));
-        }
+        const { queue = [] } = await sessionsApi.getSessionQueue({ joinId: sessionId });
+        setState((prevState) => ({ ...prevState, queue: queue }));
       } catch (e) {
         console.log(e);
       }
@@ -78,10 +76,8 @@ const Session: FC<any> = () => {
       }
 
       try {
-        const searchResponse = await sessionsApi.searchTrack({ joinId: sessionId, query: searchTerm });
-        if (searchResponse?.tracks) {
-          setSearchResult(searchResponse.tracks);
-        }
+        const { tracks = [] } = (await sessionsApi.searchTrack({ joinId: sessionId, query: searchTerm })) ?? {};
+        setSearchResult(tracks);
       } catch (e) {
         console.log(e);
       }
