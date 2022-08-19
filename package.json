@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "build": "tsc && parcel build index.html",
-    "start": "parcel index.html",
+    "start": "parcel src/index.html --no-cache",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
