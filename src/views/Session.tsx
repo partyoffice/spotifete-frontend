@@ -1,24 +1,83 @@
-import React, { FC, useCallback, useEffect, useReducer, useState } from 'react';
+import { FC, useCallback, useEffect, useReducer, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Card from '../components/Card';
 import Input from '../components/Input';
-import { TrackMetaData } from 'spotifete-client-sdk';
+import { ListeningSessionApi, TrackMetaData } from 'spotifete-client-sdk';
 import useSpotifeteApi from '../hooks/useSpotifeteApi';
 import { sessionReducer } from '../reducer/SessionReducer';
+import { InputWithPreview } from '../components/InputWithPreview';
+import { TrackListItem } from '../components/TrackListItem';
 
 function isResponse(response: any): response is Response {
   return response.status !== undefined && response.body !== undefined;
 }
-const Session: FC<any> = () => {
+function useSongSearch(sessionsApi: ListeningSessionApi, refresh: (sessionId: string) => void, sessionId?: string) {
+  const [searchTerm, setSearchTerm] = useState<string | undefined>();
+  const [searchResult, setSearchResult] = useState<TrackMetaData[]>([]);
+  const username = Date.now().toString(36) + Math.random().toString(36);
+
+  const searchTrack = useCallback(
+    async (searchTerm: string) => {
+      if (!sessionId) {
+        return;
+      }
+
+      try {
+        const { tracks = [] } = (await sessionsApi.searchTrack({ joinId: sessionId, query: searchTerm })) ?? {};
+        setSearchResult(tracks);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    [sessionsApi, sessionId]
+  );
+  useEffect(() => {
+    if (!searchTerm) {
+      setSearchResult([]);
+      return;
+    }
+
+    const timeoutId = setTimeout(() => {
+      searchTrack(searchTerm);
+      // make a request after 1 second since there's no typing
+    }, 1000);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [searchTrack, searchTerm]);
+  const handleSearchInput = useCallback((query: string) => {
+    setSearchTerm(query);
+  }, []);
+
+  const handleSearchedTrackClick = useCallback(
+    async (track: TrackMetaData) => {
+      if (!sessionId || !track.spotifyTrackId) {
+        return;
+      }
+
+      try {
+        await sessionsApi.requestTrack({
+          joinId: sessionId,
+          requestTrackRequest: { username: username, trackId: track.spotifyTrackId },
+        });
+        refresh(sessionId);
+      } catch (e) {
+        console.log(e);
+      }
+      setSearchResult([]);
+    },
+    [sessionsApi, sessionId, username, refresh]
+  );
+  return { handleSearchInput, handleSearchedTrackClick, searchResult };
+}
+export function Session() {
   const [{ session, queuedTracks, upcomingTrack, currentTrack }, dispatch] = useReducer(sessionReducer, {
     queuedTracks: [],
   });
-  const [searchTerm, setSearchTerm] = useState<string | undefined>();
-  const [searchResult, setSearchResult] = useState<TrackMetaData[]>([]);
   const { sessionsApi } = useSpotifeteApi();
   const navigate = useNavigate();
   const { sessionId } = useParams();
-  const username = Date.now().toString(36) + Math.random().toString(36);
 
   const getListeningSession = useCallback(
     async (sessionId: string) => {
@@ -47,7 +106,13 @@ const Session: FC<any> = () => {
     },
     [sessionsApi]
   );
-
+  const { searchResult, handleSearchInput, handleSearchedTrackClick } = useSongSearch(
+    sessionsApi,
+    (sessionId) => {
+      getQueue(sessionId);
+    },
+    sessionId
+  );
   useEffect(() => {
     if (!sessionId) {
       navigate('/404');
@@ -68,145 +133,52 @@ const Session: FC<any> = () => {
     }
   }, [session]);
 
-  const searchTrack = useCallback(
-    async (searchTerm: string) => {
-      if (!sessionId) {
-        return;
-      }
-
-      try {
-        const { tracks = [] } = (await sessionsApi.searchTrack({ joinId: sessionId, query: searchTerm })) ?? {};
-        setSearchResult(tracks);
-      } catch (e) {
-        console.log(e);
-      }
-    },
-    [sessionsApi, sessionId]
-  );
-
-  useEffect(() => {
-    if (!searchTerm) {
-      setSearchResult([]);
-      return;
-    }
-
-    const timeoutId = setTimeout(() => {
-      searchTrack(searchTerm);
-      // make a request after 1 second since there's no typing
-    }, 1000);
-
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [searchTrack, searchTerm]);
-
-  const handleSearchInput = useCallback((event) => {
-    setSearchTerm(event.target.value);
-  }, []);
-
-  const handleSearchedTrackClick = useCallback(
-    async (track: TrackMetaData) => {
-      if (!sessionId || !track.spotifyTrackId) {
-        return;
-      }
-
-      try {
-        await sessionsApi.requestTrack({
-          joinId: sessionId,
-          requestTrackRequest: { username: username, trackId: track.spotifyTrackId },
-        });
-        getQueue(sessionId);
-      } catch (e) {
-        console.log(e);
-      }
-      setSearchResult([]);
-    },
-    [sessionsApi, sessionId, username, getQueue]
-  );
-
   return (
-    <div className="flex flex-row items-start pt-2 pl-2 w-auto h-full">
-      <div className="flex flex-1 items-start pt-2 pl-2 h-full row">
-        <Card className="flex flex-col w-full h-full">
-          <div className="pb-2 font-bold text-green-500 text-l">Search</div>
-          <Input onChange={handleSearchInput} />
-          <div className="overflow-scroll h-full">
-            {searchResult.map((track) => (
-              <div
-                className="flex flex-row items-start px-2 mb-1 cursor-pointer hover:text-green-500"
-                key={`search_result_${track.spotifyTrackId}`}
-                onClick={() => handleSearchedTrackClick(track)}
-              >
-                <img className="mt-1 mr-1 md:w-14" src={track.albumImageThumbnailUrl} alt="" />
-                <div className="flex flex-col pl-2 mt-auto grow-0">
-                  <div className="flex flex-row">
-                    <div className="font-bold">{`${track.artistName} - ${track.trackName}`}</div>
-                  </div>
-                  <div>{track.albumName}</div>
-                </div>
+    <div className="flex relative flex-col items-start space-y-2 w-auto h-full md:flex-row md:space-y-0 md:space-x-2">
+      <Card title="Search" className="flex w-1/2 min-h-0 grow">
+        <InputWithPreview
+          onInputChange={handleSearchInput}
+          onSelectTrack={handleSearchedTrackClick}
+          tracks={searchResult}
+        />
+      </Card>
+      <Card title="Current Title">
+        {currentTrack?.trackMetadata ? (
+          <>
+            <img
+              className="mb-auto md:w-32"
+              src={currentTrack.trackMetadata.albumImageThumbnailUrl}
+              alt=""
+              width="384"
+              height="512"
+            />
+            <div className="flex flex-col pt-2 pl-2 grow-0 shrink-1">
+              <div className="flex flex-row pt-2">
+                <div className="font-bold">{`${currentTrack.trackMetadata.artistName} - ${currentTrack.trackMetadata.trackName}`}</div>
               </div>
-            ))}
-          </div>
+              <div>{currentTrack.trackMetadata?.albumName}</div>
+            </div>
+          </>
+        ) : (
+          <></>
+        )}
+      </Card>
+      <div>
+        <Card title="Coming Up">
+          {upcomingTrack?.trackMetadata ? <TrackListItem track={upcomingTrack.trackMetadata} /> : <></>}
         </Card>
-      </div>
-      <div className="flex overflow-hidden flex-row flex-1 items-start pt-2 pl-2">
-        <Card className="flex flex-col">
-          <div className="pb-2 font-bold text-green-500 text-l">Current Title</div>
-          {currentTrack?.trackMetadata ? (
-            <>
-              <img
-                className="mb-auto md:w-32"
-                src={currentTrack.trackMetadata.albumImageThumbnailUrl}
-                alt=""
-                width="384"
-                height="512"
-              />
-              <div className="flex flex-col pt-2 pl-2 grow-0 shrink-1">
-                <div className="flex flex-row pt-2">
-                  <div className="font-bold">{`${currentTrack.trackMetadata.artistName} - ${currentTrack.trackMetadata.trackName}`}</div>
-                </div>
-                <div>{currentTrack.trackMetadata?.albumName}</div>
-              </div>
-            </>
-          ) : (
-            <></>
-          )}
+        <Card title="Queue" className="flex w-full min-h-0 grow">
+          <section className="flex overflow-hidden relative flex-col w-full min-h-0 max-h-[65vh] grow">
+            <ul className="flex overflow-scroll static bottom-0 left-0 flex-col p-1 mt-2 space-y-2 w-full min-h-0 grow">
+              {queuedTracks.map(
+                ({ spotifyTrackId, trackMetadata = { artistName: 'Unbekannt', albumName: 'Unbekannt' } }) => (
+                  <TrackListItem track={trackMetadata} key={`queued_track_${spotifyTrackId}`} />
+                )
+              )}
+            </ul>
+          </section>
         </Card>
-        <div className="flex flex-col items-start w-full">
-          <Card className="flex flex-col pb-1 ml-3 w-full grow-0">
-            <div className="pb-2 font-bold text-green-500 text-l">Coming up</div>
-            {upcomingTrack?.trackMetadata ? (
-              <div className="flex flex-row items-start">
-                <img className="mt-1 mr-1 md:w-14" src={upcomingTrack.trackMetadata.albumImageThumbnailUrl} alt="" />
-                <div className="flex flex-col pl-2 mt-auto grow-0">
-                  <div className="flex flex-row">
-                    <div className="font-bold">{`${upcomingTrack.trackMetadata.artistName} - ${upcomingTrack.trackMetadata.trackName}`}</div>
-                  </div>
-                  <div>{upcomingTrack.trackMetadata?.albumName}</div>
-                </div>
-              </div>
-            ) : (
-              <></>
-            )}
-          </Card>
-          <Card className="flex flex-col pb-1 mt-1 ml-3 w-full grow-0">
-            <div className="pb-2 font-bold text-green-500 text-l">Queue</div>
-            {queuedTracks.map((track) => (
-              <div className="flex flex-row items-start mb-1" key={`track_details_${track.spotifyTrackId}`}>
-                <img className="mt-1 mr-1 md:w-14" src={track.trackMetadata?.albumImageThumbnailUrl} alt="" />
-                <div className="flex flex-col pl-2 mt-auto grow-0">
-                  <div className="flex flex-row">
-                    <div className="font-bold">{`${track.trackMetadata?.artistName} - ${track.trackMetadata?.trackName}`}</div>
-                  </div>
-                  <div>{track.trackMetadata?.albumName}</div>
-                </div>
-              </div>
-            ))}
-          </Card>
-        </div>
       </div>
     </div>
   );
-};
-
-export default Session;
+}

@@ -10,24 +10,24 @@ const Navbar: FC<any> = () => {
   const navigate = useNavigate();
 
   return (
-    <div>
-      <nav className="bg-gray-900 h-14 py-3 px-2 flex tracking-tight">
+    <>
+      <nav className="flex sticky py-3 px-2 h-14 tracking-tight bg-gray-900">
         {/*TODO: add shadow on hover*/}
         <div className="my-auto cursor-pointer" onClick={() => navigate('')}>
-          <span className="text-white font-semibold text-xl tracking-tight text-green-500 ">Spotifete</span>
+          <span className="text-xl font-semibold tracking-tight text-white text-green-500">Spotifete</span>
         </div>
-        <div className="hidden md:flex ml-6 my-auto">
-          <a href="#responsive-header" className="block text-white hover:text-green-500 mr-3">
+        <div className="hidden my-auto ml-6 md:flex">
+          <a href="#responsive-header" className="block mr-3 text-white hover:text-green-500">
             Sessions
           </a>
-          <a href="#responsive-header" className="block text-white hover:text-green-500 mr-3">
+          <a href="#responsive-header" className="block mr-3 text-white hover:text-green-500">
             Sessions2
           </a>
-          <a href="#responsive-header" className="block text-white hover:text-green-500 mr-3">
+          <a href="#responsive-header" className="block mr-3 text-white hover:text-green-500">
             Sessions3
           </a>
         </div>
-        <div className="ml-auto my-auto">
+        <div className="my-auto ml-auto">
           {userState.isAuthenticated ? (
             <Button label="Logout" onClick={logout} />
           ) : (
@@ -36,12 +36,12 @@ const Navbar: FC<any> = () => {
         </div>
       </nav>
       {/* TODO: Bottom Cirle Menu für Mobile View */}
-      <div className="hidden absolute bottom-0 right-0 h-14 w-14 mb-3 mr-3 cursor-pointer rounded-full items-center justify-center bg-gray-900">
-        <div className="my-auto mx-auto h-full flex items-center justify-center">
-          <span className="text-white font-bold text-xl ">...</span>
+      <div className="hidden absolute right-0 bottom-0 justify-center items-center mr-3 mb-3 w-14 h-14 bg-gray-900 rounded-full cursor-pointer">
+        <div className="flex justify-center items-center my-auto mx-auto h-full">
+          <span className="text-xl font-bold text-white">...</span>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
