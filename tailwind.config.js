@@ -1,13 +1,7 @@
 module.exports = {
-  purge: false,
-  darkMode: false, // or 'media' or 'class'
+  content: ['./src/**/*.{js,jsx,ts,tsx,vue}'],
   theme: {
     extend: {},
-  },
-  variants: {
-    extend: {
-      ringColor: ['focus'],
-    },
   },
   plugins: [],
 };
