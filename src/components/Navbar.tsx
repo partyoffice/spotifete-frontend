@@ -11,12 +11,12 @@ const Navbar: FC<any> = () => {
 
   return (
     <>
-      <nav className="flex sticky py-3 px-2 h-14 tracking-tight bg-gray-900">
+      <nav className="flex flex-row justify-center items-center h-full">
         {/*TODO: add shadow on hover*/}
-        <div className="my-auto cursor-pointer" onClick={() => navigate('')}>
+        <div className="cursor-pointer" onClick={() => navigate('')}>
           <span className="text-xl font-semibold tracking-tight text-white text-green-500">Spotifete</span>
         </div>
-        <div className="hidden my-auto ml-6 md:flex">
+        <div className="my-auto ml-6 md:flex">
           <a href="#responsive-header" className="block mr-3 text-white hover:text-green-500">
             Sessions
           </a>

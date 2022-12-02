@@ -27,8 +27,8 @@ const Home: FC<any> = () => {
   const createSession = useCallback(() => {}, []);
 
   return (
-    <div className="h-full w-full flex">
-      <div className="m-auto flex flex-col space-y-5">
+    <div className="flex w-full h-full">
+      <div className="flex flex-col m-auto space-y-5">
         <Card title="Join an existing session">
           <Input placeholder="Session ID" onKeyPress={handleJoinSessionInputKeyPress} />
         </Card>

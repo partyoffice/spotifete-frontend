@@ -134,51 +134,41 @@ export function Session() {
   }, [session]);
 
   return (
-    <div className="flex relative flex-col items-start space-y-2 w-auto h-full md:flex-row md:space-y-0 md:space-x-2">
-      <Card title="Search" className="flex w-1/2 min-h-0 grow">
+    <>
+      <Card title="Search" className="flex flex-col flex-1 items-stretch md:max-h-full basis-64">
         <InputWithPreview
           onInputChange={handleSearchInput}
           onSelectTrack={handleSearchedTrackClick}
           tracks={searchResult}
         />
       </Card>
-      <Card title="Current Title">
+      <Card title="Current Title" className="flex-grow max-w-sm basis-64">
         {currentTrack?.trackMetadata ? (
-          <>
-            <img
-              className="mb-auto md:w-32"
-              src={currentTrack.trackMetadata.albumImageThumbnailUrl}
-              alt=""
-              width="384"
-              height="512"
-            />
-            <div className="flex flex-col pt-2 pl-2 grow-0 shrink-1">
-              <div className="flex flex-row pt-2">
-                <div className="font-bold">{`${currentTrack.trackMetadata.artistName} - ${currentTrack.trackMetadata.trackName}`}</div>
-              </div>
-              <div>{currentTrack.trackMetadata?.albumName}</div>
-            </div>
-          </>
+          <section className="flex flex-row gap-2 justify-between">
+            <img className="" src={currentTrack.trackMetadata.albumImageThumbnailUrl} alt="" width="384" height="512" />
+            <hgroup className="flex flex-col gap-1">
+              <h2 className="font-bold">{`${currentTrack.trackMetadata.artistName} - ${currentTrack.trackMetadata.trackName}`}</h2>
+              <h3>{currentTrack.trackMetadata?.albumName}</h3>
+            </hgroup>
+          </section>
         ) : (
           <></>
         )}
       </Card>
-      <div>
-        <Card title="Coming Up">
+      <div className="flex flex-col flex-grow gap-2 md:max-h-full basis-64">
+        <Card title="Coming Up" className="flex flex-grow">
           {upcomingTrack?.trackMetadata ? <TrackListItem track={upcomingTrack.trackMetadata} /> : <></>}
         </Card>
-        <Card title="Queue" className="flex w-full min-h-0 grow">
-          <section className="flex overflow-hidden relative flex-col w-full min-h-0 max-h-[65vh] grow">
-            <ul className="flex overflow-scroll static bottom-0 left-0 flex-col p-1 mt-2 space-y-2 w-full min-h-0 grow">
-              {queuedTracks.map(
-                ({ spotifyTrackId, trackMetadata = { artistName: 'Unbekannt', albumName: 'Unbekannt' } }) => (
-                  <TrackListItem track={trackMetadata} key={`queued_track_${spotifyTrackId}`} />
-                )
-              )}
-            </ul>
-          </section>
+        <Card title="Queue" className="flex flex-grow md:h-4/5">
+          <ul className="flex overflow-scroll flex-col flex-1 flex-grow gap-2">
+            {queuedTracks.map(
+              ({ spotifyTrackId, trackMetadata = { artistName: 'Unbekannt', albumName: 'Unbekannt' } }) => (
+                <TrackListItem track={trackMetadata} key={`queued_track_${spotifyTrackId}`} />
+              )
+            )}
+          </ul>
         </Card>
       </div>
-    </div>
+    </>
   );
 }

@@ -28,13 +28,13 @@ export function App() {
   }, [authenticate]);
   return (
     <React.StrictMode>
-      <div className="overflow-hidden overscroll-none space-y-2 h-screen bg-gray-800">
+      <div className="flex overflow-hidden flex-col flex-1 gap-3 items-stretch max-h-full bg-gray-800">
         <UserProvider>
           <Router>
-            <header>
+            <header className="flex-1 px-5 bg-gray-900 shrink-0 grow-0 basis-16">
               <Navbar></Navbar>
             </header>
-            <main className="mx-2 mb-2">
+            <main className="flex overflow-scroll flex-wrap flex-grow flex-shrink gap-2 p-5 bg-gray-900 md:overflow-hidden md:h-4/5">
               <Routes>
                 <Route path="/" element={<Home />}></Route>
                 <Route path="/sessions/:sessionId" element={<Session />}></Route>

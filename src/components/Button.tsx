@@ -28,7 +28,7 @@ export const Button = ({ primary = false, size = 'medium', backgroundColor, labe
   return (
     <button
       type="button"
-      className="cursor-pointer text-sm px-4 py-1 leading-none border rounded text-white border-gray-600 hover:border-transparent hover:text-green-500 hover:bg-gray-700"
+      className="py-1 px-4 text-sm leading-none text-white rounded border border-gray-600 cursor-pointer hover:text-green-500 hover:bg-gray-700 hover:border-transparent"
       style={{ backgroundColor }}
       {...props}
     >
