@@ -135,16 +135,16 @@ export function Session() {
 
   return (
     <>
-      <Card title="Search" className="flex flex-col flex-1 items-stretch md:max-h-full basis-64">
+      <Card title="Search" className="flex flex-col flex-1 items-stretch self-start md:max-h-full basis-64">
         <InputWithPreview
           onInputChange={handleSearchInput}
           onSelectTrack={handleSearchedTrackClick}
           tracks={searchResult}
         />
       </Card>
-      <Card title="Current Title" className="flex-grow max-w-sm basis-64">
+      <Card title="Current Title" className="flex-wrap flex-grow-0 flex-shrink self-start max-w-sm basis-64">
         {currentTrack?.trackMetadata ? (
-          <section className="flex flex-row gap-2 justify-between">
+          <section className="flex flex-col flex-grow-0 gap-2 justify-between">
             <img className="" src={currentTrack.trackMetadata.albumImageThumbnailUrl} alt="" width="384" height="512" />
             <hgroup className="flex flex-col gap-1">
               <h2 className="font-bold">{`${currentTrack.trackMetadata.artistName} - ${currentTrack.trackMetadata.trackName}`}</h2>
@@ -159,7 +159,7 @@ export function Session() {
         <Card title="Coming Up" className="flex flex-grow">
           {upcomingTrack?.trackMetadata ? <TrackListItem track={upcomingTrack.trackMetadata} /> : <></>}
         </Card>
-        <Card title="Queue" className="flex flex-grow md:h-4/5">
+        <Card title="Queue" className="flex flex-grow self-start md:h-4/5">
           <ul className="flex overflow-scroll flex-col flex-1 flex-grow gap-2">
             {queuedTracks.map(
               ({ spotifyTrackId, trackMetadata = { artistName: 'Unbekannt', albumName: 'Unbekannt' } }) => (

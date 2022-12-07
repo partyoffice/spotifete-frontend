@@ -34,7 +34,7 @@ export function App() {
             <header className="flex-1 px-5 bg-gray-900 shrink-0 grow-0 basis-16">
               <Navbar></Navbar>
             </header>
-            <main className="flex overflow-scroll flex-wrap flex-grow flex-shrink gap-2 p-5 bg-gray-900 md:overflow-hidden md:h-4/5">
+            <main className="flex overflow-scroll flex-wrap flex-grow gap-2 p-5 md:overflow-hidden md:h-4/5">
               <Routes>
                 <Route path="/" element={<Home />}></Route>
                 <Route path="/sessions/:sessionId" element={<Session />}></Route>

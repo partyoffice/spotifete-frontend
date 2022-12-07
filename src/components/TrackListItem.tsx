@@ -10,7 +10,7 @@ export function TrackListItem({ track, onSelectTrack = () => undefined, classNam
   const onSelect = useCallback(() => onSelectTrack(track), [onSelectTrack, track]);
   return (
     <li
-      className={`basis-20 grow-0 shrink-0 flex flex-row even:bg-gray-800 gap-3 items-center bg-gray-900 cursor-pointer text-slate-300 ${className}`}
+      className={`basis-20 grow-0 p-2 shrink-0 flex flex-row even:bg-gray-800 gap-3 items-center bg-gray-900 cursor-pointer text-slate-300 ${className}`}
       onClick={onSelect}
     >
       <img className="w-14 h-14" src={track.albumImageThumbnailUrl} alt="" />
