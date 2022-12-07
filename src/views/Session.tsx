@@ -142,10 +142,10 @@ export function Session() {
           tracks={searchResult}
         />
       </Card>
-      <Card title="Current Title" className="flex-wrap flex-grow-0 flex-shrink self-start max-w-sm basis-64">
+      <Card title="Current Title" className="flex-wrap flex-grow self-start max-w-sm basis-64">
         {currentTrack?.trackMetadata ? (
-          <section className="flex flex-col flex-grow-0 gap-2 justify-between">
-            <img className="" src={currentTrack.trackMetadata.albumImageThumbnailUrl} alt="" width="384" height="512" />
+          <section className="flex flex-row flex-grow gap-2 justify-between">
+            <img className="" src={currentTrack.trackMetadata.albumImageThumbnailUrl} alt="" width="128" height="128" />
             <hgroup className="flex flex-col gap-1">
               <h2 className="font-bold">{`${currentTrack.trackMetadata.artistName} - ${currentTrack.trackMetadata.trackName}`}</h2>
               <h3>{currentTrack.trackMetadata?.albumName}</h3>

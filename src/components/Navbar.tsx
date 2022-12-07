@@ -16,7 +16,7 @@ const Navbar: FC<any> = () => {
         <div className="cursor-pointer" onClick={() => navigate('')}>
           <span className="text-xl font-semibold tracking-tight text-white text-green-500">Spotifete</span>
         </div>
-        <div className="my-auto ml-6 md:flex">
+        <div className="hidden flex-row my-auto ml-6 md:flex md:visible">
           <a href="#responsive-header" className="block mr-3 text-white hover:text-green-500">
             Sessions
           </a>
