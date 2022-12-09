@@ -155,11 +155,11 @@ export function Session() {
           <></>
         )}
       </Card>
-      <div className="flex flex-col flex-grow gap-2 md:max-h-full basis-64">
+      <div className="flex flex-col flex-grow gap-2 items-stretch md:max-h-full basis-64">
         <Card title="Coming Up" className="flex flex-grow">
           {upcomingTrack?.trackMetadata ? <TrackListItem track={upcomingTrack.trackMetadata} /> : <></>}
         </Card>
-        <Card title="Queue" className="flex flex-grow self-start md:h-4/5">
+        <Card title="Queue" className="flex flex-grow md:h-4/5">
           <ul className="flex overflow-scroll flex-col flex-1 flex-grow gap-2">
             {queuedTracks.map(
               ({ spotifyTrackId, trackMetadata = { artistName: 'Unbekannt', albumName: 'Unbekannt' } }) => (
