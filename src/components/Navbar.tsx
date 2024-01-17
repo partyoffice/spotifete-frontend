@@ -14,7 +14,7 @@ const Navbar: FC<any> = () => {
       <nav className="bg-gray-900 h-14 py-3 px-2 flex tracking-tight">
         {/*TODO: add shadow on hover*/}
         <div className="my-auto cursor-pointer" onClick={() => navigate('')}>
-          <span className="text-white font-semibold text-xl tracking-tight text-green-500 ">Spotifete</span>
+          <span className="font-semibold text-2xl tracking-tight text-green-500 ">Spotifete</span>
         </div>
         <div className="hidden md:flex ml-6 my-auto">
           <a href="#responsive-header" className="block text-white hover:text-green-500 mr-3">
