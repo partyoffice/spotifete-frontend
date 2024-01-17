@@ -30,7 +30,7 @@ const Home: FC<any> = () => {
     <div className="h-full w-full flex">
       <div className="m-auto flex flex-col space-y-5">
         <Card title="Join an existing session">
-          <Input placeholder="Session ID" onKeyPress={handleJoinSessionInputKeyPress} />
+          <Input placeholder="Session ID" onKeyUp={handleJoinSessionInputKeyPress} />
         </Card>
 
         {userState.isAuthenticated ? (
