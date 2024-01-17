@@ -7,7 +7,7 @@ const useSpotifeteApi: () => { authenticationApi: AuthenticationApi; sessionsApi
 
   const apiConfig = useMemo(() => {
     return new Configuration({
-      basePath: process.env.API_URL,
+      basePath: import.meta.env.VITE_API_URL,
       accessToken: userState.userSession?.spotifeteSessionId,
     });
   }, [userState.userSession]);
