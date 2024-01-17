@@ -2,8 +2,10 @@
   "name": "spotifete-frontend",
   "version": "0.0.0",
   "scripts": {
-    "build": "tsc && parcel build index.html",
-    "start": "parcel src/index.html",
+    "build": "tsc && vite build",
+    "clean": "rm -rf dist",
+    "preview": "vite preview",
+    "start": "vite --open",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
@@ -26,6 +28,7 @@
     "@types/react-router-dom": "^5.3.3",
     "@typescript-eslint/eslint-plugin": "^5.33.1",
     "@typescript-eslint/parser": "^5.33.1",
+    "@vitejs/plugin-react-swc": "^3.5.0",
     "autoprefixer": "^10.4.13",
     "babel-loader": "^8.2.5",
     "eslint": "^8.22.0",
@@ -34,11 +37,11 @@
     "eslint-plugin-react": "^7.30.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-storybook": "^0.6.4",
-    "parcel": "^2.7.0",
     "postcss": "^8.4.19",
     "prettier": "^2.7.1",
     "tailwindcss": "^3.2.4",
-    "typescript": "^4.7.4"
+    "typescript": "^4.7.4",
+    "vite": "^5.0.11"
   },
   "overrides": {
     "react-refresh": "0.9.0"
